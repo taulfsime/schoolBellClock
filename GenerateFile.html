@@ -1,0 +1,163 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	
+	<body style="margin: 0;">
+		<div style="background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
+			<table id="hoursTable" style="position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black">
+				<tr>
+					<th style="display: none">#</th>
+					<th style="border: 1px solid black; width: 20px;">#</th>
+					<th style="border: 1px solid black;">НАЧАЛО</th>
+					<th style="border: 1px solid black">КРАЙ</th>
+					<th style="border: 1px solid black">ФУНКЦИИ</th>
+				</tr>
+				
+				<tr>
+					<td colspan="5" style="margin: auto;">
+						<input type="button" value="Добави ред" onclick="addRow()" style="width: 100%;"/>
+					</td>
+				</tr>
+			</table>
+			
+			<!--<input type="time" min="09:00" max="18:00">-->
+		</div>
+		
+		<div style="position: absolute; left: 10; bottom: 20;">
+			Created by 
+			<a href="https://github.com/taulfsime">taulfsime</a>
+		</div>
+	</body>
+	
+	<script>
+		var rowsIdCount = 0;
+	
+		function moveUp(id) {
+			var table = document.getElementById("hoursTable");
+			if(table.rows.length <= 3) {
+				return;
+			}
+			
+			for(var i = 2; i < table.rows.length - 1; i++) {
+				var row = table.rows[i];
+				
+				if(row.cells[0].innerHTML == id) {
+				
+					var otherRow = table.rows[i - 1];
+					for(var j = 0; j < row.cells.length - 1; j++) {
+						var temp = row.cells[j];
+						row.cells[j] = otherRow.cells[j];
+						otherRow.cells[j] = temp;
+					}
+				}
+			}
+			
+			updateNumbers();
+		}
+	
+		function updateNumbers() {
+			var table = document.getElementById("hoursTable");
+			if(table.rows.legend <= 2) {
+				return;
+			}
+			
+			for(var i = 1; i < table.rows.length - 1; i++) {
+				table.rows[i].cells[1].innerHTML = i;
+			}
+		}
+		
+		function deleteRow(id) {
+			var table = document.getElementById("hoursTable");
+						
+			if(table.rows.length <= 2) {
+				return;
+			}
+			
+			for(var i = 1; i < table.rows.length - 1; i++) {
+				if(table.rows[i].cells[0].innerHTML == id) {
+					table.deleteRow(i);
+					break;
+				}
+			}
+			
+			if(table.rows.length == 2) {
+				addRow();
+			}
+			else {
+				updateNumbers();
+			}
+		}
+	
+		function addRow() {
+			var table = document.getElementById("hoursTable");
+			var rowCount = table.rows.length;
+			var row = table.insertRow(rowCount - 1);
+			
+			var cellId = row.insertCell(0);
+			cellId.style = "display: none";
+			cellId.innerHTML = rowsIdCount;
+			rowsIdCount += 1;
+			
+			var cellCount = row.insertCell(1);
+			cellCount.innerHTML = rowCount - 1;
+			
+			var cellHourStart = row.insertCell(2);
+			
+			var elementHourStart = document.createElement("input");
+			elementHourStart.type = "time";
+			cellHourStart.appendChild(elementHourStart);
+			
+			var cellHourEnd = row.insertCell(3);
+			var elementHourEnd = document.createElement("input");
+			elementHourEnd.type = "time";
+			cellHourEnd.appendChild(elementHourEnd);
+			
+			var funcs = row.insertCell(4);
+			funcs.style = "position: relative; display: flex; flex-direction: row; justify-content: space-around;";
+			
+			var buttonTexts = [ "ИЗТРИЙ", "КОПИРАЙ", "/\\", "\\/" ];
+			var buttonFuncs = [ 
+								function() {
+									if(confirm("test")) {
+										deleteRow(cellId.innerHTML);
+									}
+								},
+								function() {
+									console.log('dup ' + cellId.innerHTML);
+								},
+								function() {
+									moveUp(cellId.innerHTML);
+								},
+								function() {
+									console.log('down ' + cellId.innerHTML);
+								}
+							];
+			
+			for(var i = 0; i < buttonTexts.length; i++) {
+				var btn = document.createElement("input");
+				btn.type = "button";
+				btn.value = buttonTexts[i];
+				btn.style = "position: relative;";
+				btn.onclick = buttonFuncs[i];
+				
+				funcs.appendChild(btn);
+			}
+		}
+	
+		function download(filename, text) {
+			var element = document.createElement("a");
+			element.setAttribute("href", "data:text/plain; charset = utf-8" + encodeURIComponent(text));
+			element.setAttribute("download", filename);
+
+			element.style.display = "none";
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
+		}
+		
+		addRow();
+	</script>
+</html>
