@@ -10,7 +10,6 @@
 				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px;">
 				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px">
 			</div>
-			
 		
 			<table id = "hoursTablePlan1" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
 				<tr>
@@ -54,7 +53,7 @@
 	</body>
 	
 	<script>
-		var rowsIdCount = 0;
+		var rowsIdCounts = [0, 0];
 	
 		/*function test() {
 			var test = document.getElementById("file");
@@ -106,14 +105,13 @@
 			
 			var cellId = row.insertCell(0);
 			cellId.style = "display: none";
-			cellId.innerHTML = rowsIdCount;
-			rowsIdCount += 1;
+			cellId.innerHTML = rowsIdCounts[tableId == "hoursTablePlan1" ? 0 : 1];
+			rowsIdCounts[tableId == "hoursTablePlan1" ? 0 : 1] += 1;
 			
 			var cellCount = row.insertCell(1);
 			cellCount.innerHTML = rowCount - 1;
 			
 			var cellHourStart = row.insertCell(2);
-			
 			var elementHourStart = document.createElement("input");
 			elementHourStart.type = "time";
 			cellHourStart.appendChild(elementHourStart);
@@ -126,21 +124,27 @@
 			var funcs = row.insertCell(4);
 			funcs.style = "position: relative; display: flex; flex-direction: row; justify-content: space-around;";
 			
-			var buttonTexts = [ "ИЗТРИЙ", "КОПИРАЙ", "/\\", "\\/" ];
+			var buttonTexts = [ "=", "-10", "-5", "+5", "+10", "X" ];
 			var buttonFuncs = [ 
+								function() {
+									elementHourEnd.value = elementHourStart.value;
+								},
+								function() {
+									
+								},
+								function() {
+									
+								},
+								function() {
+									
+								},
+								function() {
+									
+								},
 								function() {
 									if(confirm("test")) {
 										deleteRow(tableId, cellId.innerHTML);
 									}
-								},
-								function() {
-									console.log('dup ' + cellId.innerHTML);
-								},
-								function() {
-									console.log('up ' + cellId.innerHTML);
-								},
-								function() {
-									console.log('down ' + cellId.innerHTML);
 								}
 							];
 			
@@ -152,6 +156,13 @@
 				btn.onclick = buttonFuncs[i];
 				
 				funcs.appendChild(btn);
+			}
+			
+			for(var i = 1; i < table.rows.length - 1; i++) {
+				if(parseInt(table.rows[i].cells[0].innerHTML) == parseInt(cellId.innerHTML) - 1) {	
+					elementHourStart.value = table.rows[i].cells[3].childNodes[0].value;
+					break;
+				}
 			}
 		}
 	
