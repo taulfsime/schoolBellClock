@@ -6,9 +6,9 @@
 	<body style = "margin: 0;">
 		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
 			<!--<input type="file" id="file" onchange="test()"/>-->
-			<div>
-				<input type = "button" value = "План #1" onclick = "setPlan(1)">
-				<input type = "button" value = "План #2" onclick = "setPlan(2)">
+			<div style = "position: absolute; left: 140px; top: 130px">
+				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px;">
+				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px">
 			</div>
 			
 		
@@ -172,10 +172,16 @@
 			if(plan == 1) {
 				document.getElementById("hoursTablePlan1").style.display = "";
 				document.getElementById("hoursTablePlan2").style.display = "none";
+				
+				document.getElementById("buttonPlan1").style.backgroundColor = "#404040"
+				document.getElementById("buttonPlan2").style.backgroundColor = "#787878";
 			}
 			else {
 				document.getElementById("hoursTablePlan1").style.display = "none";
 				document.getElementById("hoursTablePlan2").style.display = "";
+				
+				document.getElementById("buttonPlan1").style.backgroundColor = "#787878";
+				document.getElementById("buttonPlan2").style.backgroundColor = "#404040";
 			}
 		}
 		
