@@ -1,22 +1,45 @@
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset = "UTF-8">
 	</head>
 	
-	<body style="margin: 0;">
-		<div style="background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
-			<table id="hoursTable" style="position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black">
+	<body style = "margin: 0;">
+		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
+			<!--<input type="file" id="file" onchange="test()"/>-->
+			<div>
+				<input type = "button" value = "План #1" onclick = "setPlan(1)">
+				<input type = "button" value = "План #2" onclick = "setPlan(2)">
+			</div>
+			
+		
+			<table id = "hoursTablePlan1" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
 				<tr>
-					<th style="display: none">#</th>
-					<th style="border: 1px solid black; width: 20px;">#</th>
-					<th style="border: 1px solid black;">НАЧАЛО</th>
-					<th style="border: 1px solid black">КРАЙ</th>
-					<th style="border: 1px solid black">ФУНКЦИИ</th>
+					<th style = "display: none">#</th>
+					<th style = "border: 1px solid black; width: 20px;">#</th>
+					<th style = "border: 1px solid black;">НАЧАЛО</th>
+					<th style = "border: 1px solid black">КРАЙ</th>
+					<th style = "border: 1px solid black">ФУНКЦИИ</th>
 				</tr>
 				
 				<tr>
-					<td colspan="5" style="margin: auto;">
-						<input type="button" value="Добави ред" onclick="addRow()" style="width: 100%;"/>
+					<td colspan = "5" style = "margin: auto;">
+						<input type = "button" value = "Добави ред" onclick = "addRow('hoursTablePlan1')" style = "width: 100%;"/>
+					</td>
+				</tr>
+			</table>
+			
+			<table id = "hoursTablePlan2" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
+				<tr>
+					<th style = "display: none">#</th>
+					<th style = "border: 1px solid black; width: 20px;">#</th>
+					<th style = "border: 1px solid black;">НАЧАЛО</th>
+					<th style = "border: 1px solid black">КРАЙ</th>
+					<th style = "border: 1px solid black">ФУНКЦИИ</th>
+				</tr>
+				
+				<tr>
+					<td colspan = "5" style = "margin: auto;">
+						<input type = "button" value = "Добави ред" onclick = "addRow('hoursTablePlan2')" style = "width: 100%;"/>
 					</td>
 				</tr>
 			</table>
@@ -24,40 +47,32 @@
 			<!--<input type="time" min="09:00" max="18:00">-->
 		</div>
 		
-		<div style="position: absolute; left: 10; bottom: 20;">
+		<div style = "position: absolute; left: 10; bottom: 20;">
 			Created by 
-			<a href="https://github.com/taulfsime">taulfsime</a>
+			<a href = "https://github.com/taulfsime">taulfsime</a>
 		</div>
 	</body>
 	
 	<script>
 		var rowsIdCount = 0;
 	
-		function moveUp(id) {
-			var table = document.getElementById("hoursTable");
-			if(table.rows.length <= 3) {
+		/*function test() {
+			var test = document.getElementById("file");
+		
+			if(test.files.length == 0) {
 				return;
 			}
 			
-			for(var i = 2; i < table.rows.length - 1; i++) {
-				var row = table.rows[i];
-				
-				if(row.cells[0].innerHTML == id) {
-				
-					var otherRow = table.rows[i - 1];
-					for(var j = 0; j < row.cells.length - 1; j++) {
-						var temp = row.cells[j];
-						row.cells[j] = otherRow.cells[j];
-						otherRow.cells[j] = temp;
-					}
-				}
+			var fileReader = new FileReader();
+			fileReader.onload = (e) => {
+				console.log(e);
 			}
 			
-			updateNumbers();
-		}
+			fileReader.readAsText(test.files[0]);
+		}*/
 	
-		function updateNumbers() {
-			var table = document.getElementById("hoursTable");
+		function updateNumbers(tableId) {
+			var table = document.getElementById(tableId);
 			if(table.rows.legend <= 2) {
 				return;
 			}
@@ -67,8 +82,8 @@
 			}
 		}
 		
-		function deleteRow(id) {
-			var table = document.getElementById("hoursTable");
+		function deleteRow(tableId, id) {
+			var table = document.getElementById(tableId);
 						
 			if(table.rows.length <= 2) {
 				return;
@@ -81,16 +96,11 @@
 				}
 			}
 			
-			if(table.rows.length == 2) {
-				addRow();
-			}
-			else {
-				updateNumbers();
-			}
+			updateNumbers(tableId);
 		}
 	
-		function addRow() {
-			var table = document.getElementById("hoursTable");
+		function addRow(tableId) {
+			var table = document.getElementById(tableId);
 			var rowCount = table.rows.length;
 			var row = table.insertRow(rowCount - 1);
 			
@@ -120,14 +130,14 @@
 			var buttonFuncs = [ 
 								function() {
 									if(confirm("test")) {
-										deleteRow(cellId.innerHTML);
+										deleteRow(tableId, cellId.innerHTML);
 									}
 								},
 								function() {
 									console.log('dup ' + cellId.innerHTML);
 								},
 								function() {
-									moveUp(cellId.innerHTML);
+									console.log('up ' + cellId.innerHTML);
 								},
 								function() {
 									console.log('down ' + cellId.innerHTML);
@@ -158,6 +168,23 @@
 			document.body.removeChild(element);
 		}
 		
-		addRow();
+		function setPlan(plan) {
+			if(plan == 1) {
+				document.getElementById("hoursTablePlan1").style.display = "";
+				document.getElementById("hoursTablePlan2").style.display = "none";
+			}
+			else {
+				document.getElementById("hoursTablePlan1").style.display = "none";
+				document.getElementById("hoursTablePlan2").style.display = "";
+			}
+		}
+		
+		
+		setPlan(1);
+		addRow('hoursTablePlan1');
+		addRow('hoursTablePlan2');
 	</script>
+	<style>
+		
+	</style>
 </html>
