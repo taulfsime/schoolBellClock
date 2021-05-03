@@ -4,14 +4,14 @@
 	</head>
 	
 	<body style = "margin: 0;">
-		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
+		<div id = "mainPart" style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
 			<div style = "position: absolute; left: 15px; top: 5px; color: white; font-size: 16px;">
-				Версия: 1.0
+				Последно актуализиран на: 03/05/2021
 				</br>
 				Изтегляне на проекта: 
 				<a href = "https://github.com/taulfsime/schoolBellClock" target = "_blank">link</a>
 				</br>
-				Докладване на проблем: 
+				Докладване за проблем: 
 				<a href = "https://github.com/taulfsime/schoolBellClock/issues" target = "_blank">link</a>
 			</div>
 			
@@ -40,38 +40,6 @@
 			</div>
 		
 			<div style = "position: absolute; left: 660px; top: 175px; color: white; user-select: none" title = "Максимален брой часове: 9">(?)</div>
-		
-			<table id = "hoursTablePlan1" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
-				<tr>
-					<th style = "display: none">#</th>
-					<th style = "border: 1px solid black; width: 20px; user-select: none;">#</th>
-					<th style = "border: 1px solid black; user-select: none;">НАЧАЛО</th>
-					<th style = "border: 1px solid black; user-select: none;">КРАЙ</th>
-					<th style = "border: 1px solid black; user-select: none;" title = "Сложи мишката върху бутона на функцията за повече информация">ФУНКЦИИ (?)</th>
-				</tr>
-				
-				<tr>
-					<td colspan = "5" style = "margin: auto;">
-						<input type = "button" value = "Добави час" onclick = "addRow('hoursTablePlan1')" style = "width: 100%;"/>
-					</td>
-				</tr>
-			</table>
-			
-			<table id = "hoursTablePlan2" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
-				<tr>
-					<th style = "display: none">#</th>
-					<th style = "border: 1px solid black; width: 20px; user-select: none;">#</th>
-					<th style = "border: 1px solid black; user-select: none;">НАЧАЛО</th>
-					<th style = "border: 1px solid black; user-select: none;">КРАЙ</th>
-					<th style = "border: 1px solid black; user-select: none;" title = "Сложи мишката върху бутона на функцията за повече информация">ФУНКЦИИ (?)</th>
-				</tr>
-				
-				<tr>
-					<td colspan = "5" style = "margin: auto;">
-						<input type = "button" value = "Добави час" onclick = "addRow('hoursTablePlan2')" style = "width: 100%;"/>
-					</td>
-				</tr>
-			</table>
 		</div>
 		
 		<div style = "position: absolute; left: 10; bottom: 20;">
@@ -81,6 +49,58 @@
 	</body>
 	
 	<script>
+		window.onbeforeunload = (event) => false;
+		document.addEventListener("DOMContentLoaded", function(e) {
+			function genTable(tableId) {
+				var table = document.createElement("table");
+				table.id = tableId;
+				table.style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;";
+				
+				var rowHead = table.insertRow(0);
+				
+				var idCell = rowHead.insertCell(0);
+				idCell.style.display = "none";
+				idCell.innerHTML = "#";
+				
+				var numberCell = rowHead.insertCell(1);
+				numberCell.style = "border: 1px solid black; width: 20px; user-select: none; text-align: center;";
+				numberCell.innerHTML = "#";
+				
+				var startHourCell = rowHead.insertCell(2);
+				startHourCell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
+				startHourCell.innerHTML = "НАЧАЛО";
+				
+				var endHourCell = rowHead.insertCell(3);
+				endHourCell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
+				endHourCell.innerHTML = "КРАЙ";
+				
+				var funcsCell = rowHead.insertCell(4);
+				funcsCell.style = "border: 1px solid black; user-select: none; width: 300px; text-align: center;";
+				funcsCell.title = "Сложи мишката върху бутона на функцията за повече информация"
+				funcsCell.innerHTML = "ФУНКЦИИ (?)";
+				
+				var rowAddButton = table.insertRow(1);
+				var buttonCell = rowAddButton.insertCell(0);
+				buttonCell.style = "margin: auto;";
+				buttonCell.colSpan = 5;
+				
+				var buttonAdd = document.createElement("input");
+				buttonAdd.type = "button";
+				buttonAdd.value = "Добави час";
+				buttonAdd.onclick = () => { addRow(tableId); };
+				buttonAdd.style = "width: 100%;";
+				
+				buttonCell.appendChild(buttonAdd);
+				
+				document.getElementById("mainPart").appendChild(table);
+			}
+		
+			genTable("hoursTablePlan1");
+			genTable("hoursTablePlan2");
+			
+			setPlan(1);
+		});
+	
 		var rowsIdCounts = [0, 0];
 	
 		function updateNumbers(tableId) {
@@ -159,7 +179,7 @@
 			var row = table.insertRow(rowCount - 1);
 			
 			var cellId = row.insertCell(0);
-			cellId.style = "display: none";
+			cellId.style.display = "none";
 			cellId.innerHTML = rowsIdCounts[tableId == "hoursTablePlan1" ? 0 : 1];
 			rowsIdCounts[tableId == "hoursTablePlan1" ? 0 : 1] += 1;
 			
@@ -416,8 +436,6 @@
 				document.getElementById("buttonPlan2").style.backgroundColor = "#404040";
 			}
 		}
-		
-		setPlan(1);
 	</script>
 	<style>
 		
