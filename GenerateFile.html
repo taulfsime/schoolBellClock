@@ -6,6 +6,16 @@
 	<body style = "margin: 0;">
 		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
 			<!--<input type="file" id="file" onchange="test()"/>-->
+			<div style = "position: absolute; left: 15px; top: 5px; color: white; font-size: 16px;">
+				Версия: 1.0
+				</br>
+				Изтегляне на проекта: 
+				<a href = "https://github.com/taulfsime/schoolBellClock" target = "_blank">link</a>
+				</br>
+				Докладване на проблем: 
+				<a href = "https://github.com/taulfsime/schoolBellClock/issues" target = "_blank">link</a>
+			</div>
+			
 			<div style = "position: absolute; left: 140px; top: 100px">
 				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px;">
 				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px">
@@ -285,7 +295,6 @@
 				document.getElementById("buttonPlan2").style.backgroundColor = "#404040";
 			}
 		}
-		
 		
 		setPlan(1);
 		addRow('hoursTablePlan1');
