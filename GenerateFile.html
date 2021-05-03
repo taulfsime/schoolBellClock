@@ -5,7 +5,6 @@
 	
 	<body style = "margin: 0;">
 		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
-			<!--<input type="file" id="file" onchange="test()"/>-->
 			<div style = "position: absolute; left: 15px; top: 5px; color: white; font-size: 16px;">
 				Версия: 1.0
 				</br>
@@ -16,6 +15,13 @@
 				<a href = "https://github.com/taulfsime/schoolBellClock/issues" target = "_blank">link</a>
 			</div>
 			
+			<!--<input type="file" id="file" onchange="test(this)"/>-->
+			<div style = "position: absolute; left: 400px; top: 15px">
+				<input type="file" onchange="loadFromFile(this)"/>
+				</br>
+				<input type = "button" value = "Изтегли файл" onclick = "downloadFile()">
+			</div>
+			
 			<div style = "position: absolute; left: 140px; top: 100px">
 				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px;">
 				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px">
@@ -23,7 +29,7 @@
 			
 			<div style = "position: absolute; left: 200; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
 				Минути (?): 
-				<input type = "number" style = "width: 70px;" min = "0" max = "59" value = "3"/>
+				<input type = "number" id = "minsBeforeFirstRing" style = "width: 70px;" min = "0" max = "59" value = "3"/>
 			</div>
 		
 			<table id = "hoursTablePlan1" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
@@ -70,21 +76,6 @@
 	<script>
 		var rowsIdCounts = [0, 0];
 	
-		/*function test() {
-			var test = document.getElementById("file");
-		
-			if(test.files.length == 0) {
-				return;
-			}
-			
-			var fileReader = new FileReader();
-			fileReader.onload = (e) => {
-				console.log(e);
-			}
-			
-			fileReader.readAsText(test.files[0]);
-		}*/
-	
 		function updateNumbers(tableId) {
 			var table = document.getElementById(tableId);
 			if(table.rows.legend <= 2) {
@@ -114,33 +105,50 @@
 		}
 		
 		function addMinutes(timeString, mins) {
-				var hours = parseInt(timeString.split(":")[0]);
-				var minutes = parseInt(timeString.split(":")[1]);
-				
-				minutes += mins;
-				if(minutes < 0) {
-					hours -= 1;
-					minutes += 60;
-				}
-				else if(minutes >= 60) {
-					hours += 1;
-					minutes -= 60;
-				}
-				
-				if(hours < 0) {
-					hours += 23;
-				}
-				else if(hours >= 24) {
-					hours -= 23;
-				}
-				
-				timeString = (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
-				return timeString;
+			var hours = parseInt(timeString.split(":")[0]);
+			var minutes = parseInt(timeString.split(":")[1]);
+			
+			minutes += mins;
+			if(minutes < 0) {
+				hours -= 1;
+				minutes += 60;
 			}
+			else if(minutes >= 60) {
+				hours += 1;
+				minutes -= 60;
+			}
+			
+			if(hours < 0) {
+				hours += 23;
+			}
+			else if(hours >= 24) {
+				hours -= 23;
+			}
+			
+			timeString = (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
+			return timeString;
+		}
+		
+		function getDiffMinutes(time1String, time2String) {
+			var hours1 = parseInt(time1String.split(":")[0]);
+			var minutes1 = parseInt(time1String.split(":")[1]);
+			
+			var hours2 = parseInt(time2String.split(":")[0]);
+			var minutes2 = parseInt(time2String.split(":")[1]);
+			
+			
+			var diff = (hours2 - hours1) * 60 + (minutes2 - minutes1)
+			
+			return (diff < 0 ?  -1 : 1) * diff;
+		}
 	
 		function addRow(tableId) {
 			var table = document.getElementById(tableId);
 			var rowCount = table.rows.length;
+			if(rowCount == 11) {
+				return;
+			}
+			
 			var row = table.insertRow(rowCount - 1);
 			
 			var cellId = row.insertCell(0);
@@ -264,12 +272,108 @@
 					break;
 				}
 			}
+			
+			return row;
 		}
 	
-		function download(filename, text) {
+		function loadFromFile(element) {
+			if(element.files.length == 0) {
+				return;
+			}
+			
+			var fileReader = new FileReader();
+			fileReader.onload = (e) => {
+				var values = e.target.result.split(" ");
+				if(values.length <= 0) {
+					return;
+				}
+				var index = 0;
+				var tempHour = values[index++] + ":" +  values[index++];
+				var minsBeforeFirstRing = parseInt(values[index++]);
+				document.getElementById("minsBeforeFirstRing").value = minsBeforeFirstRing;
+				
+				for(index; index < 28; index += 3) {
+					var row = addRow("hoursTablePlan1");
+					tempHour = addMinutes(tempHour, minsBeforeFirstRing);
+					row.cells[2].childNodes[1].value = tempHour;
+					
+					tempHour = addMinutes(tempHour, parseInt(values[index]));
+					row.cells[3].childNodes[1].value = tempHour;
+					
+					tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
+				}
+				
+				tempHour = values[index - 2] + ":" +  values[index - 1];
+				
+				for(index += 1; index < 28 * 2; index += 3) {
+					var row = addRow("hoursTablePlan2");
+					tempHour = addMinutes(tempHour, minsBeforeFirstRing);
+					row.cells[2].childNodes[1].value = tempHour;
+					
+					tempHour = addMinutes(tempHour, parseInt(values[index]));
+					row.cells[3].childNodes[1].value = tempHour;
+					
+					tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
+				}
+			}
+			
+			fileReader.readAsText(element.files[0]);
+		}
+	
+		function prepTable(tableId) {
+			var minsBeforeFirstRing = parseInt(document.getElementById("minsBeforeFirstRing").value);
+			var table = document.getElementById(tableId);
+			var tableValues = [];
+			
+			var tempTime = table.rows[1].cells[2].childNodes[1].value;
+			tempTime = addMinutes(tempTime, -1 * minsBeforeFirstRing);
+			
+			tableValues.push(parseInt(tempTime.split(":")[0]));
+			tableValues.push(parseInt(tempTime.split(":")[1]));
+			
+			for(var i = 1; i < 10; i++) {
+				if(i < table.rows.length - 1) {			
+					tableValues.push(minsBeforeFirstRing);
+					tableValues.push(getDiffMinutes(table.rows[i].cells[3].childNodes[1].value, table.rows[i].cells[2].childNodes[1].value));
+					
+					if(i < table.rows.length - 2) {
+						var diff = getDiffMinutes(table.rows[i].cells[3].childNodes[1].value, table.rows[i + 1].cells[2].childNodes[1].value);
+						tableValues.push(diff - minsBeforeFirstRing);
+					}
+				}
+				else {
+					tableValues.push(0);
+					tableValues.push(0);
+					tableValues.push(0);
+				}
+			}
+			
+			return tableValues;
+		}
+	
+		function downloadFile() {
+			var text = "";
+			
+			var values = prepTable("hoursTablePlan1");
+			for(var i = 0; i < values.length; i++) {
+				text += values[i].toString();
+				text += " ";
+			}
+			
+			values = prepTable("hoursTablePlan2");
+			for(var i = 0; i < values.length; i++) {
+				text += values[i].toString();
+				
+				if(i < values.length - 1) {
+					text += " ";
+				}
+			}
+			
+			console.log(text);
+			
 			var element = document.createElement("a");
-			element.setAttribute("href", "data:text/plain; charset = utf-8" + encodeURIComponent(text));
-			element.setAttribute("download", filename);
+			element.setAttribute("href", "data:text/plain; charset = utf-8," + encodeURIComponent(text));
+			element.setAttribute("download", "plan.txt");
 
 			element.style.display = "none";
 			document.body.appendChild(element);
@@ -297,8 +401,6 @@
 		}
 		
 		setPlan(1);
-		addRow('hoursTablePlan1');
-		addRow('hoursTablePlan2');
 	</script>
 	<style>
 		
