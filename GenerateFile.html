@@ -97,6 +97,31 @@
 			
 			updateNumbers(tableId);
 		}
+		
+		function addMinutes(timeString, mins) {
+				var hours = parseInt(timeString.split(":")[0]);
+				var minutes = parseInt(timeString.split(":")[1]);
+				
+				minutes += mins;
+				if(minutes < 0) {
+					hours -= 1;
+					minutes += 60;
+				}
+				else if(minutes >= 60) {
+					hours += 1;
+					minutes -= 60;
+				}
+				
+				if(hours < 0) {
+					hours += 23;
+				}
+				else if(hours >= 24) {
+					hours -= 23;
+				}
+				
+				timeString = (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
+				return timeString;
+			}
 	
 		function addRow(tableId) {
 			var table = document.getElementById(tableId);
@@ -111,35 +136,94 @@
 			var cellCount = row.insertCell(1);
 			cellCount.innerHTML = rowCount - 1;
 			
+			//Cell for setting start hour
 			var cellHourStart = row.insertCell(2);
+			
+			//setting start hour checkbox
+			var elementCheckHourStart = document.createElement("input");
+			elementCheckHourStart.type = "checkbox";
+			elementCheckHourStart.checked = true;
+			cellHourStart.appendChild(elementCheckHourStart);
+			
+			//sestting start hour time
 			var elementHourStart = document.createElement("input");
 			elementHourStart.type = "time";
 			cellHourStart.appendChild(elementHourStart);
 			
+			//Cell for setting end hour
 			var cellHourEnd = row.insertCell(3);
+			
+			//setting end hour checkbox
+			var elementCheckHourEnd = document.createElement("input");
+			elementCheckHourEnd.type = "checkbox";
+			elementCheckHourEnd.checked = false;
+			cellHourEnd.appendChild(elementCheckHourEnd);
+			
+			//sestting end hour time
 			var elementHourEnd = document.createElement("input");
 			elementHourEnd.type = "time";
 			cellHourEnd.appendChild(elementHourEnd);
+			
+			elementCheckHourStart.onchange = (e) => elementCheckHourEnd.checked = !e.target.checked;
+			elementCheckHourEnd.onchange = (e) =>  elementCheckHourStart.checked = !e.target.checked;
 			
 			var funcs = row.insertCell(4);
 			funcs.style = "position: relative; display: flex; flex-direction: row; justify-content: space-around;";
 			
 			var buttonTexts = [ "=", "-10", "-5", "+5", "+10", "X" ];
+			var buttonTitles = [ "Копира времето от избрания елемент на другия елемент", "Изважда 10 минути от избраното време", "Изважда 5 минути от избраното време", "Добавя 5 минути към избраното време", "Добавя 10 минути към избраното време", "Изтрива реда" ];
 			var buttonFuncs = [ 
 								function() {
-									elementHourEnd.value = elementHourStart.value;
+									if(elementCheckHourStart.checked) {
+										if(elementHourStart.value.length > 0) {
+											elementHourEnd.value = elementHourStart.value;
+										}
+									}
+									else {
+										if(elementHourEnd.value.length > 0) {
+											elementHourStart.value = elementHourEnd.value;
+										}
+									}
 								},
 								function() {
-									
+									var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+									timeString = addMinutes(timeString, -10);
+									if(elementCheckHourStart.checked) {
+										elementHourStart.value = timeString;
+									}
+									else {
+										elementHourEnd.value = timeString;
+									}
 								},
 								function() {
-									
+									var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+									timeString = addMinutes(timeString, -5);
+									if(elementCheckHourStart.checked) {
+										elementHourStart.value = timeString;
+									}
+									else {
+										elementHourEnd.value = timeString;
+									}
 								},
 								function() {
-									
+									var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+									timeString = addMinutes(timeString, 5);
+									if(elementCheckHourStart.checked) {
+										elementHourStart.value = timeString;
+									}
+									else {
+										elementHourEnd.value = timeString;
+									}
 								},
 								function() {
-									
+									var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+									timeString = addMinutes(timeString, 10);
+									if(elementCheckHourStart.checked) {
+										elementHourStart.value = timeString;
+									}
+									else {
+										elementHourEnd.value = timeString;
+									}
 								},
 								function() {
 									if(confirm("test")) {
@@ -154,13 +238,14 @@
 				btn.value = buttonTexts[i];
 				btn.style = "position: relative;";
 				btn.onclick = buttonFuncs[i];
+				btn.title = buttonTitles[i];
 				
 				funcs.appendChild(btn);
 			}
 			
-			for(var i = 1; i < table.rows.length - 1; i++) {
-				if(parseInt(table.rows[i].cells[0].innerHTML) == parseInt(cellId.innerHTML) - 1) {	
-					elementHourStart.value = table.rows[i].cells[3].childNodes[0].value;
+			for(var i = 2; i < table.rows.length - 1; i++) {
+				if(table.rows[i].cells[0].innerHTML == cellId.innerHTML) {	
+					elementHourStart.value = table.rows[i - 1].cells[3].childNodes[1].value;
 					break;
 				}
 			}
