@@ -1,414 +1,495 @@
-<html>
-	<head>
-		<meta charset = "UTF-8">
-	</head>
-	
-	<body style = "margin: 0;">
-		<div id = "mainPart" style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
-			<div style = "position: absolute; left: 15px; top: 5px; color: white; font-size: 16px;">
-				Последно актуализиран на: 03/05/2021
-				</br>
-				Изтегляне на проекта: 
-				<a href = "https://github.com/taulfsime/schoolBellClock" target = "_blank">link</a>
-				</br>
-				Докладване за проблем: 
-				<a href = "https://github.com/taulfsime/schoolBellClock/issues" target = "_blank">link</a>
+	<html>
+		<head>
+			<meta charset = "UTF-8">
+		</head>
+		
+		<body style = "margin: 0;">
+			<div id = "mainPart" style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
+				<div style = "position: absolute; left: 15px; top: 5px; color: white; font-size: 16px;">
+					Последно актуализиран на: 03/05/2021
+					</br>
+					Изтегляне на проекта: 
+					<a href = "https://github.com/taulfsime/schoolBellClock" target = "_blank">link</a>
+					</br>
+					Докладване за проблем: 
+					<a href = "https://github.com/taulfsime/schoolBellClock/issues" target = "_blank">link</a>
+				</div>
+				
+				<div style = "position: absolute; left: 570px; top: 15px; display: flex; flex-direction: column;">
+					<label for = "loadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
+						Зареди файл
+					</label>
+					
+					<input id = "loadFile" type="file" onchange="loadFromFile(this)" style = "display: none;"/>
+					
+					<label for = "downloadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
+						Изтегли файл
+					</label>
+					
+					<input id = "downloadFile" type = "button" value = "Изтегли файл" onclick = "downloadFile()" style = "display: none;">
+				</div>
+				
+				<div style = "position: absolute; left: 140px; top: 100px">
+					<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px; color: white; font-weight: bold; border-color: white;">
+					<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px; color: white; font-weight: bold; border-color: white;">
+				</div>
+				
+				<div style = "position: absolute; left: 200; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
+					Минути (?): 
+					<input type = "number" id = "minsBeforeFirstRing" style = "width: 70px;" min = "0" max = "59" value = "3"/>
+				</div>
+			
+				<div style = "position: absolute; left: 660px; top: 175px; color: white; user-select: none" title = "Максимален брой часове: 9">(?)</div>
 			</div>
 			
-			<div style = "position: absolute; left: 570px; top: 15px; display: flex; flex-direction: column;">
-				<label for = "loadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
-					Зареди файл
-				</label>
-				
-				<input id = "loadFile" type="file" onchange="loadFromFile(this)" style = "display: none;"/>
-				
-				<label for = "downloadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
-					Изтегли файл
-				</label>
-				
-				<input id = "downloadFile" type = "button" value = "Изтегли файл" onclick = "downloadFile()" style = "display: none;">
+			<div style = "position: absolute; left: 10; bottom: 20;">
+				Created by 
+				<a href = "https://github.com/taulfsime">taulfsime</a>
 			</div>
-			
-			<div style = "position: absolute; left: 140px; top: 100px">
-				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px; color: white; font-weight: bold; border-color: white;">
-				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px; color: white; font-weight: bold; border-color: white;">
-			</div>
-			
-			<div style = "position: absolute; left: 200; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
-				Минути (?): 
-				<input type = "number" id = "minsBeforeFirstRing" style = "width: 70px;" min = "0" max = "59" value = "3"/>
-			</div>
+		</body>
 		
-			<div style = "position: absolute; left: 660px; top: 175px; color: white; user-select: none" title = "Максимален брой часове: 9">(?)</div>
-		</div>
-		
-		<div style = "position: absolute; left: 10; bottom: 20;">
-			Created by 
-			<a href = "https://github.com/taulfsime">taulfsime</a>
-		</div>
-	</body>
-	
-	<script>
-		window.onbeforeunload = (event) => false;
-		document.addEventListener("DOMContentLoaded", function(e) {
-			function genTable(tableId) {
-				var table = document.createElement("table");
-				table.id = tableId;
-				table.style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;";
-				
-				//header row
-				var row = table.insertRow(0);
-				var cell = row.insertCell(0);
-				cell.style = "border: 1px solid black; width: 20px; user-select: none; text-align: center;";
-				cell.innerHTML = "#";
-				
-				cell = row.insertCell(1);
-				cell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
-				cell.innerHTML = "НАЧАЛО";
-				
-				cell = row.insertCell(2);
-				cell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
-				cell.innerHTML = "КРАЙ";
-				
-				cell = row.insertCell(3);
-				cell.style = "border: 1px solid black; user-select: none; width: 300px; text-align: center;";
-				cell.title = "Сложи мишката върху бутона на функцията за повече информация"
-				cell.innerHTML = "ФУНКЦИИ (?)";
-				
-				//add button row
-				row = table.insertRow(1);
-				cell = row.insertCell(0);
-				cell.style = "margin: auto;";
-				cell.colSpan = 4;
-				
-				var buttonAdd = document.createElement("input");
-				buttonAdd.type = "button";
-				buttonAdd.value = "Добави час";
-				buttonAdd.onclick = () => { addRow(tableId); };
-				buttonAdd.style = "width: 100%;";
-				
-				cell.appendChild(buttonAdd);
-				
-				document.getElementById("mainPart").appendChild(table);
-			}
-		
-			genTable("hoursTablePlan1");
-			genTable("hoursTablePlan2");
-			
-			setPlan(1);
-		});
-	
-		function updateNumbers(tableId) {
-			var table = document.getElementById(tableId);
-			if(table.rows.legend <= 2) {
-				return;
-			}
-			
-			for(var i = 1; i < table.rows.length - 1; i++) {
-				table.rows[i].cells[0].innerHTML = i;
-			}
-		}
-		
-		function addMinutes(timeString, mins) {
-			var hours = parseInt(timeString.split(":")[0]);
-			var minutes = parseInt(timeString.split(":")[1]);
-			
-			minutes += mins;
-			if(minutes < 0) {
-				hours -= 1;
-				minutes += 60;
-			}
-			else if(minutes >= 60) {
-				hours += 1;
-				minutes -= 60;
-			}
-			
-			if(hours < 0) {
-				hours += 23;
-			}
-			else if(hours >= 24) {
-				hours -= 23;
-			}
-			
-			timeString = (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
-			return timeString;
-		}
-		
-		function getDiffMinutes(time1String, time2String) {
-			var hours1 = parseInt(time1String.split(":")[0]);
-			var minutes1 = parseInt(time1String.split(":")[1]);
-			
-			var hours2 = parseInt(time2String.split(":")[0]);
-			var minutes2 = parseInt(time2String.split(":")[1]);
-			
-			
-			var diff = (hours2 - hours1) * 60 + (minutes2 - minutes1)
-			
-			return (diff < 0 ?  -1 : 1) * diff;
-		}
-	
-		function addRow(tableId) {
-			var table = document.getElementById(tableId);
-			var rowCount = table.rows.length;
-			if(rowCount == 11) {
-				return;
-			}
-			
-			var row = table.insertRow(rowCount - 1);
-			
-			var cell = row.insertCell(0);
-			cell.innerHTML = rowCount - 1;
-			
-			//Cell for setting start hour
-			cell = row.insertCell(1);
-			
-			//setting start hour checkbox
-			var elementCheckHourStart = document.createElement("input");
-			elementCheckHourStart.type = "checkbox";
-			elementCheckHourStart.checked = true;
-			cell.appendChild(elementCheckHourStart);
-			
-			//sestting start hour time
-			var elementHourStart = document.createElement("input");
-			elementHourStart.type = "time";
-			if(table.rows.length > 3) {
-				elementHourStart.value = table.rows[rowCount - 2].cells[2].childNodes[1].value;
-			}
-			cell.appendChild(elementHourStart);
-			
-			//Cell for setting end hour
-			cell = row.insertCell(2);
-			
-			//setting end hour checkbox
-			var elementCheckHourEnd = document.createElement("input");
-			elementCheckHourEnd.type = "checkbox";
-			elementCheckHourEnd.checked = false;
-			cell.appendChild(elementCheckHourEnd);
-			
-			//sestting end hour time
-			var elementHourEnd = document.createElement("input");
-			elementHourEnd.type = "time";
-			cell.appendChild(elementHourEnd);
-			
-			elementCheckHourStart.onchange = (e) => elementCheckHourEnd.checked = !e.target.checked;
-			elementCheckHourEnd.onchange = (e) =>  elementCheckHourStart.checked = !e.target.checked;
-			
-			cell = row.insertCell(3);
-			cell.style = "position: relative; display: flex; flex-direction: row; justify-content: space-around;";
-			
-			var buttonTexts = [ "=", "-10", "-5", "+5", "+10", "X" ];
-			var buttonTitles = [ "Копира времето от избрания елемент към другия елемент", "Изважда 10 минути от избраното време", "Изважда 5 минути от избраното време", "Добавя 5 минути към избраното време", "Добавя 10 минути към избраното време", "Изтрива реда" ];
-			var buttonFuncs = [ 
-				function() {
-					if(elementCheckHourStart.checked) {
-						if(elementHourStart.value.length > 0) {
-							elementHourEnd.value = elementHourStart.value;
-						}
-					}
-					else {
-						if(elementHourEnd.value.length > 0) {
-							elementHourStart.value = elementHourEnd.value;
-						}
-					}
-				},
-				function() {
-					var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
-					timeString = addMinutes(timeString, -10);
-					if(elementCheckHourStart.checked) {
-						elementHourStart.value = timeString;
-					}
-					else {
-						elementHourEnd.value = timeString;
-					}
-				},
-				function() {
-					var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
-					timeString = addMinutes(timeString, -5);
-					if(elementCheckHourStart.checked) {
-						elementHourStart.value = timeString;
-					}
-					else {
-						elementHourEnd.value = timeString;
-					}
-				},
-				function() {
-					var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
-					timeString = addMinutes(timeString, 5);
-					if(elementCheckHourStart.checked) {
-						elementHourStart.value = timeString;
-					}
-					else {
-						elementHourEnd.value = timeString;
-					}
-				},
-				function() {
-					var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
-					timeString = addMinutes(timeString, 10);
-					if(elementCheckHourStart.checked) {
-						elementHourStart.value = timeString;
-					}
-					else {
-						elementHourEnd.value = timeString;
-					}
-				},
-				function() {
-					var n = parseInt(row.cells[0].innerHTML);
-					if(confirm("Час #" + n + " ще бъде изтрит?")) {
-						table.deleteRow();
-						updateNumbers(tableId);
-					}
+		<script>
+			window.onbeforeunload = (event) => false;
+			document.addEventListener("DOMContentLoaded", function(e) {
+				function genTable(tableId) {
+					var table = document.createElement("table");
+					table.id = tableId;
+					table.style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;";
+					
+					//header row
+					var row = table.insertRow(0);
+					var cell = row.insertCell(0);
+					cell.style = "border: 1px solid black; width: 20px; user-select: none; text-align: center;";
+					cell.innerHTML = "#";
+					
+					cell = row.insertCell(1);
+					cell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
+					cell.innerHTML = "НАЧАЛО";
+					
+					cell = row.insertCell(2);
+					cell.style = "border: 1px solid black; user-select: none; width: 130px; text-align: center;";
+					cell.innerHTML = "КРАЙ";
+					
+					cell = row.insertCell(3);
+					cell.style = "border: 1px solid black; user-select: none; width: 300px; text-align: center;";
+					cell.title = "Сложи мишката върху бутона на функцията за повече информация"
+					cell.innerHTML = "ФУНКЦИИ (?)";
+					
+					//add button row
+					row = table.insertRow(1);
+					cell = row.insertCell(0);
+					cell.style = "margin: auto;";
+					cell.colSpan = 4;
+					
+					var buttonAdd = document.createElement("input");
+					buttonAdd.type = "button";
+					buttonAdd.value = "Добави час";
+					buttonAdd.onclick = () => { addRow(tableId); };
+					buttonAdd.style = "width: 100%;";
+					
+					cell.appendChild(buttonAdd);
+					
+					document.getElementById("mainPart").appendChild(table);
 				}
-			];
 			
-			for(var i = 0; i < buttonTexts.length; i++) {
-				var btn = document.createElement("input");
-				btn.type = "button";
-				btn.value = buttonTexts[i];
-				btn.style = "position: relative;";
-				btn.onclick = buttonFuncs[i];
-				btn.title = buttonTitles[i];
+				genTable("hoursTablePlan1");
+				genTable("hoursTablePlan2");
 				
-				cell.appendChild(btn);
-			}
-			
-			return row;
-		}
-	
-		function loadFromFile(element) {
-			if(element.files.length == 0) {
-				return;
-			}
-			
-			var fileReader = new FileReader();
-			fileReader.onload = (e) => {
-				var values = e.target.result.split(" ");
-				if(values.length <= 0) {
+				setPlan(1);
+			});
+		
+			function updateNumbers(tableId) {
+				var table = document.getElementById(tableId);
+				if(table.rows.legend <= 2) {
 					return;
 				}
-				var index = 0;
-				var tempHour = values[index++] + ":" +  values[index++];
-				var minsBeforeFirstRing = parseInt(values[index++]);
-				document.getElementById("minsBeforeFirstRing").value = minsBeforeFirstRing;
 				
-				for(index; index < 28; index += 3) {
-					var row = addRow("hoursTablePlan1");
-					tempHour = addMinutes(tempHour, minsBeforeFirstRing);
-					row.cells[1].childNodes[1].value = tempHour;
-					
-					tempHour = addMinutes(tempHour, parseInt(values[index]));
-					row.cells[2].childNodes[1].value = tempHour;
-					
-					tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
-				}
-				
-				tempHour = values[index - 2] + ":" +  values[index - 1];
-				
-				for(index += 1; index < 28 * 2; index += 3) {
-					var row = addRow("hoursTablePlan2");
-					tempHour = addMinutes(tempHour, minsBeforeFirstRing);
-					row.cells[1].childNodes[1].value = tempHour;
-					
-					tempHour = addMinutes(tempHour, parseInt(values[index]));
-					row.cells[2].childNodes[1].value = tempHour;
-					
-					tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
+				for(var i = 1; i < table.rows.length - 1; i++) {
+					table.rows[i].cells[0].innerHTML = i;
 				}
 			}
 			
-			fileReader.readAsText(element.files[0]);
-		}
-	
-		function prepTable(tableId) {
-			var minsBeforeFirstRing = parseInt(document.getElementById("minsBeforeFirstRing").value);
-			var table = document.getElementById(tableId);
-			var tableValues = [];
-			
-			if(table.rows.length <= 2) {
-				return;
+			function validateRows(tableId) {
+				var table = document.getElementById(tableId);
+				if(table.rows.length <= 2) {
+					return true;
+				}
+				
+				var allValid = true;
+				
+				for(var i = 1; i < table.rows.length - 1; i++) {
+					var timeStart = table.rows[i].cells[1].childNodes[1].value;
+					var timeEnd = table.rows[i].cells[2].childNodes[1].value;
+					
+					var valid = true;
+					if(timeStart.length == 0 || timeEnd.length == 0) {
+						valid = false;
+					}
+					
+					if(valid && compareTimes(timeStart, timeEnd) != 1) {
+						valid = false;
+					}
+					
+					if(i > 1) {
+						timeEnd = table.rows[i - 1].cells[2].childNodes[1].value;
+						if(valid && compareTimes(timeEnd, timeStart) != 1) {
+							valid = false;
+						}
+					}
+					
+					if(!valid) {
+						allValid = false;
+					}
+					
+					table.rows[i].style.backgroundColor = ( valid ? "" : "red");
+				}
+				
+				return allValid;
 			}
 			
-			var tempTime = table.rows[1].cells[2].childNodes[1].value;
-			tempTime = addMinutes(tempTime, -1 * minsBeforeFirstRing);
+			function addMinutes(timeString, mins) {
+				var hours = parseInt(timeString.split(":")[0]);
+				var minutes = parseInt(timeString.split(":")[1]);
+				
+				minutes += mins;
+				if(minutes < 0) {
+					hours -= 1;
+					minutes += 60;
+				}
+				else if(minutes >= 60) {
+					hours += 1;
+					minutes -= 60;
+				}
+				
+				if(hours < 0) {
+					hours += 23;
+				}
+				else if(hours >= 24) {
+					hours -= 23;
+				}
+				
+				timeString = (hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
+				return timeString;
+			}
 			
-			tableValues.push(parseInt(tempTime.split(":")[0]));
-			tableValues.push(parseInt(tempTime.split(":")[1]));
-			
-			for(var i = 1; i < 10; i++) {
-				if(i < table.rows.length - 1) {			
-					tableValues.push(minsBeforeFirstRing);
-					tableValues.push(getDiffMinutes(table.rows[i].cells[2].childNodes[1].value, table.rows[i].cells[1].childNodes[1].value));
-					
-					if(i < table.rows.length - 2) {
-						var diff = getDiffMinutes(table.rows[i].cells[2].childNodes[1].value, table.rows[i + 1].cells[1].childNodes[1].value);
-						tableValues.push(diff - minsBeforeFirstRing);
+			function compareTimes(time1String, time2String) {
+				var hours1 = parseInt(time1String.split(":")[0]);
+				var minutes1 = parseInt(time1String.split(":")[1]);
+				
+				var hours2 = parseInt(time2String.split(":")[0]);
+				var minutes2 = parseInt(time2String.split(":")[1]);
+				
+				if(hours1 == hours2) {
+					if(minutes1 == minutes2) {
+						return 0;
+					}
+					else {
+						return (minutes2 > minutes1 ? 1 : -1);
 					}
 				}
-				else {
-					tableValues.push(0);
-					tableValues.push(0);
-					tableValues.push(0);
+				else{
+					return (hours2 > hours1 ? 1 : -1);
 				}
 			}
 			
-			return tableValues;
-		}
-	
-		function downloadFile() {
-			var text = "";
-			
-			var values = prepTable("hoursTablePlan1");
-			if(typeof(values) == 'undefined') {
-				return;
-			}
-			
-			for(var i = 0; i < values.length; i++) {
-				text += values[i].toString();
-				text += " ";
-			}
-			
-			values = prepTable("hoursTablePlan2");
-			if(typeof(values) == 'undefined') {
-				return;
-			}
-			
-			for(var i = 0; i < values.length; i++) {
-				text += values[i].toString();
+			function getDiffMinutes(time1String, time2String) {
+				var hours1 = parseInt(time1String.split(":")[0]);
+				var minutes1 = parseInt(time1String.split(":")[1]);
 				
-				if(i < values.length - 1) {
+				var hours2 = parseInt(time2String.split(":")[0]);
+				var minutes2 = parseInt(time2String.split(":")[1]);
+				
+				
+				var diff = (hours2 - hours1) * 60 + (minutes2 - minutes1)
+				
+				return (diff < 0 ?  -1 : 1) * diff;
+			}
+		
+			function addRow(tableId) {
+				var table = document.getElementById(tableId);
+				var rowCount = table.rows.length;
+				if(rowCount == 11) {
+					return;
+				}
+				
+				validateRows(tableId);
+				
+				var row = table.insertRow(rowCount - 1);
+				
+				var cell = row.insertCell(0);
+				cell.innerHTML = rowCount - 1;
+				
+				//Cell for setting start hour
+				cell = row.insertCell(1);
+				
+				//setting start hour checkbox
+				var elementCheckHourStart = document.createElement("input");
+				elementCheckHourStart.type = "checkbox";
+				elementCheckHourStart.checked = true;
+				cell.appendChild(elementCheckHourStart);
+				
+				//sestting start hour time
+				var elementHourStart = document.createElement("input");
+				elementHourStart.type = "time";
+				elementHourStart.onchange = (e) => { validateRows(tableId); }
+				if(table.rows.length > 3) {
+					elementHourStart.value = table.rows[rowCount - 2].cells[2].childNodes[1].value;
+				}
+				cell.appendChild(elementHourStart);
+				
+				//Cell for setting end hour
+				cell = row.insertCell(2);
+				
+				//setting end hour checkbox
+				var elementCheckHourEnd = document.createElement("input");
+				elementCheckHourEnd.type = "checkbox";
+				elementCheckHourEnd.checked = false;
+				cell.appendChild(elementCheckHourEnd);
+				
+				//sestting end hour time
+				var elementHourEnd = document.createElement("input");
+				elementHourEnd.type = "time";
+				elementHourEnd.onchange = (e) => { validateRows(tableId); }
+				cell.appendChild(elementHourEnd);
+				
+				elementCheckHourStart.onchange = (e) => elementCheckHourEnd.checked = !e.target.checked;
+				elementCheckHourEnd.onchange = (e) =>  elementCheckHourStart.checked = !e.target.checked;
+				
+				cell = row.insertCell(3);
+				cell.style = "position: relative; display: flex; flex-direction: row; justify-content: space-around;";
+				
+				var buttonTexts = [ "=", "-10", "-5", "+5", "+10", "X" ];
+				var buttonTitles = [ "Копира времето от избрания елемент към другия елемент", "Изважда 10 минути от избраното време", "Изважда 5 минути от избраното време", "Добавя 5 минути към избраното време", "Добавя 10 минути към избраното време", "Изтрива реда" ];
+				var buttonFuncs = [ 
+					function() {
+						if(elementCheckHourStart.checked) {
+							if(elementHourStart.value.length > 0) {
+								elementHourEnd.value = elementHourStart.value;
+							}
+						}
+						else {
+							if(elementHourEnd.value.length > 0) {
+								elementHourStart.value = elementHourEnd.value;
+							}
+						}
+					},
+					function() {
+						var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+						timeString = addMinutes(timeString, -10);
+						if(elementCheckHourStart.checked) {
+							elementHourStart.value = timeString;
+						}
+						else {
+							elementHourEnd.value = timeString;
+						}
+						
+						validateRows(tableId);
+					},
+					function() {
+						var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+						timeString = addMinutes(timeString, -5);
+						if(elementCheckHourStart.checked) {
+							elementHourStart.value = timeString;
+						}
+						else {
+							elementHourEnd.value = timeString;
+						}
+						
+						validateRows(tableId);
+					},
+					function() {
+						var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+						timeString = addMinutes(timeString, 5);
+						if(elementCheckHourStart.checked) {
+							elementHourStart.value = timeString;
+						}
+						else {
+							elementHourEnd.value = timeString;
+						}
+						
+						validateRows(tableId);
+					},
+					function() {
+						var timeString = (elementCheckHourStart.checked ? elementHourStart.value : elementHourEnd.value);
+						timeString = addMinutes(timeString, 10);
+						if(elementCheckHourStart.checked) {
+							elementHourStart.value = timeString;
+						}
+						else {
+							elementHourEnd.value = timeString;
+						}
+						
+						validateRows(tableId);
+					},
+					function() {
+						var n = parseInt(row.cells[0].innerHTML);
+						if(confirm("Час #" + n + " ще бъде изтрит?")) {
+							table.deleteRow(n);
+							updateNumbers(tableId);
+							
+							if(table.rows.length < 11) {
+								table.rows[table.rows.length - 1].cells[0].childNodes[0].disabled = false;
+							}
+						}
+						
+						validateRows(tableId);
+					}
+				];
+				
+				for(var i = 0; i < buttonTexts.length; i++) {
+					var btn = document.createElement("input");
+					btn.type = "button";
+					btn.value = buttonTexts[i];
+					btn.style = "position: relative;";
+					btn.onclick = buttonFuncs[i];
+					btn.title = buttonTitles[i];
+					
+					cell.appendChild(btn);
+				}
+				
+				if(table.rows.length == 11) {
+					table.rows[10].cells[0].childNodes[0].disabled = true;
+				}
+				
+				return row;
+			}
+		
+			function loadFromFile(element) {
+				if(element.files.length == 0) {
+					return;
+				}
+				
+				var fileReader = new FileReader();
+				fileReader.onload = (e) => {
+					var values = e.target.result.split(" ");
+					if(values.length <= 0) {
+						return;
+					}
+					var index = 0;
+					var tempHour = values[index++] + ":" +  values[index++];
+					var minsBeforeFirstRing = parseInt(values[index++]);
+					document.getElementById("minsBeforeFirstRing").value = minsBeforeFirstRing;
+					
+					for(index; index < 28; index += 3) {
+						var row = addRow("hoursTablePlan1");
+						tempHour = addMinutes(tempHour, minsBeforeFirstRing);
+						row.cells[1].childNodes[1].value = tempHour;
+						
+						tempHour = addMinutes(tempHour, parseInt(values[index]));
+						row.cells[2].childNodes[1].value = tempHour;
+						
+						tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
+					}
+					
+					tempHour = values[index - 2] + ":" +  values[index - 1];
+					
+					for(index += 1; index < 28 * 2; index += 3) {
+						var row = addRow("hoursTablePlan2");
+						tempHour = addMinutes(tempHour, minsBeforeFirstRing);
+						row.cells[1].childNodes[1].value = tempHour;
+						
+						tempHour = addMinutes(tempHour, parseInt(values[index]));
+						row.cells[2].childNodes[1].value = tempHour;
+						
+						tempHour = addMinutes(tempHour, parseInt(values[index + 1]));
+					}
+				}
+				
+				fileReader.readAsText(element.files[0]);
+			}
+		
+			function prepTable(tableId) {
+				var minsBeforeFirstRing = parseInt(document.getElementById("minsBeforeFirstRing").value);
+				var table = document.getElementById(tableId);
+				var tableValues = [];
+				
+				if(table.rows.length <= 2) {
+					return;
+				}
+				
+				var tempTime = table.rows[1].cells[2].childNodes[1].value;
+				tempTime = addMinutes(tempTime, -1 * minsBeforeFirstRing);
+				
+				tableValues.push(parseInt(tempTime.split(":")[0]));
+				tableValues.push(parseInt(tempTime.split(":")[1]));
+				
+				for(var i = 1; i < 10; i++) {
+					if(i < table.rows.length - 1) {			
+						tableValues.push(minsBeforeFirstRing);
+						tableValues.push(getDiffMinutes(table.rows[i].cells[2].childNodes[1].value, table.rows[i].cells[1].childNodes[1].value));
+						
+						if(i < table.rows.length - 2) {
+							var diff = getDiffMinutes(table.rows[i].cells[2].childNodes[1].value, table.rows[i + 1].cells[1].childNodes[1].value);
+							tableValues.push(diff - minsBeforeFirstRing);
+						}
+					}
+					else {
+						tableValues.push(0);
+						tableValues.push(0);
+						tableValues.push(0);
+					}
+				}
+				
+				return tableValues;
+			}
+		
+			function downloadFile() {
+				var text = "";
+				
+				if(!validateRows("hoursTablePlan1") || !validateRows("hoursTablePlan2")) {
+					return; //TODO: show error
+				}
+				
+				var values = prepTable("hoursTablePlan1");
+				if(typeof(values) == 'undefined') {
+					return;
+				}
+				
+				for(var i = 0; i < values.length; i++) {
+					text += values[i].toString();
 					text += " ";
 				}
+				
+				values = prepTable("hoursTablePlan2");
+				if(typeof(values) == 'undefined') {
+					return;
+				}
+				
+				for(var i = 0; i < values.length; i++) {
+					text += values[i].toString();
+					
+					if(i < values.length - 1) {
+						text += " ";
+					}
+				}
+				
+				var element = document.createElement("a");
+				element.setAttribute("href", "data:text/plain; charset = utf-8," + encodeURIComponent(text));
+				element.setAttribute("download", "plan.txt");
+
+				element.style.display = "none";
+				document.body.appendChild(element);
+
+				element.click();
+
+				document.body.removeChild(element);
 			}
 			
-			var element = document.createElement("a");
-			element.setAttribute("href", "data:text/plain; charset = utf-8," + encodeURIComponent(text));
-			element.setAttribute("download", "plan.txt");
-
-			element.style.display = "none";
-			document.body.appendChild(element);
-
-			element.click();
-
-			document.body.removeChild(element);
-		}
-		
-		function setPlan(plan) {
-			if(plan == 1) {
-				document.getElementById("hoursTablePlan1").style.display = "";
-				document.getElementById("hoursTablePlan2").style.display = "none";
-				
-				document.getElementById("buttonPlan1").style.backgroundColor = "#404040"
-				document.getElementById("buttonPlan2").style.backgroundColor = "#787878";
+			function setPlan(plan) {
+				if(plan == 1) {
+					document.getElementById("hoursTablePlan1").style.display = "";
+					document.getElementById("hoursTablePlan2").style.display = "none";
+					
+					document.getElementById("buttonPlan1").style.backgroundColor = "#404040"
+					document.getElementById("buttonPlan2").style.backgroundColor = "#787878";
+				}
+				else {
+					document.getElementById("hoursTablePlan1").style.display = "none";
+					document.getElementById("hoursTablePlan2").style.display = "";
+					
+					document.getElementById("buttonPlan1").style.backgroundColor = "#787878";
+					document.getElementById("buttonPlan2").style.backgroundColor = "#404040";
+				}
 			}
-			else {
-				document.getElementById("hoursTablePlan1").style.display = "none";
-				document.getElementById("hoursTablePlan2").style.display = "";
-				
-				document.getElementById("buttonPlan1").style.backgroundColor = "#787878";
-				document.getElementById("buttonPlan2").style.backgroundColor = "#404040";
-			}
-		}
-	</script>
-	<style>
-		
-	</style>
-</html>
+		</script>
+	</html>
