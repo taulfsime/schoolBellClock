@@ -116,7 +116,7 @@
 			function validateRows(tableId) {
 				var table = document.getElementById(tableId);
 				if(table.rows.length <= 2) {
-					return true;
+					return false;
 				}
 				
 				var allValid = true;
@@ -441,7 +441,8 @@
 				var text = "";
 				
 				if(!validateRows("hoursTablePlan1") || !validateRows("hoursTablePlan2")) {
-					return; //TODO: show error
+					alert("Файлът не може да бъде генериран! Проверете таблиците!");
+					return;
 				}
 				
 				var values = prepTable("hoursTablePlan1");
