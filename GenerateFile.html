@@ -6,9 +6,14 @@
 	<body style = "margin: 0;">
 		<div style = "background-color: gray; position: relative; left: 0; top: 0; width: 700px; height: 100%; margin-left: auto; margin-right: auto;">
 			<!--<input type="file" id="file" onchange="test()"/>-->
-			<div style = "position: absolute; left: 140px; top: 130px">
+			<div style = "position: absolute; left: 140px; top: 100px">
 				<input id = "buttonPlan1" type = "button" value = "План #1" onclick = "setPlan(1)" style = "padding: 10px; float: left; width: 200px;">
 				<input id = "buttonPlan2" type = "button" value = "План #2" onclick = "setPlan(2)" style = "padding: 10px; float: left; width: 200px">
+			</div>
+			
+			<div style = "position: absolute; left: 200; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
+				Минути (?): 
+				<input type = "number" style = "width: 70px;" min = "0" max = "59" value = "3"/>
 			</div>
 		
 			<table id = "hoursTablePlan1" style = "position: absolute; left: 30px; top: 200px; width: 640px; color: white; border: 1px solid black;">
