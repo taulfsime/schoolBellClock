@@ -16,13 +16,13 @@
 				</div>
 				
 				<div style = "position: absolute; left: 570px; top: 15px; display: flex; flex-direction: column;">
-					<label for = "loadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
+					<label for = "loadFile" style = "user-select: none; border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
 						Зареди файл
 					</label>
 					
 					<input id = "loadFile" type="file" onchange="loadFromFile(this)" style = "display: none;"/>
 					
-					<label for = "downloadFile" style = "border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
+					<label for = "downloadFile" style = "user-select: none; border: 1px solid white; border-radius: 5px; padding: 5px 7px; text-align: center; background-color: #404040; color: white;" onmouseover = "this.style.backgroundColor = '#787878';" onmouseout = "this.style.backgroundColor = '#404040';">
 						Изтегли файл
 					</label>
 					
@@ -37,6 +37,10 @@
 				<div style = "position: absolute; left: 200; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
 					Минути (?): 
 					<input type = "number" id = "minsBeforeFirstRing" style = "width: 70px;" min = "0" max = "59" value = "3"/>
+				</div>
+				
+				<div style = "position: absolute; left: 450px; top: 160px; color: white; user-select: none" title = "Минути преди началния час за първия звъцен">
+					<input type = "button" value = "Нулирай" onclick = "clearTables();" title = "Нулиране на двата плана"/>
 				</div>
 			
 				<div style = "position: absolute; left: 660px; top: 175px; color: white; user-select: none" title = "Максимален брой часове: 9">(?)</div>
@@ -473,6 +477,18 @@
 				element.click();
 
 				document.body.removeChild(element);
+			}
+			
+			function clearTables() {
+				var tableIds = ["hoursTablePlan1", "hoursTablePlan2"];
+				
+				for(var i = 0; i < tableIds.length; i++) {
+					var table = document.getElementById(tableIds[i]);
+					
+					for(var j = table.rows.length - 2; j > 0; j--) {
+						table.deleteRow(j);
+					}
+				}
 			}
 			
 			function setPlan(plan) {
